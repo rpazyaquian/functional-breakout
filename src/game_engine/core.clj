@@ -1,6 +1,8 @@
 (ns game-engine.core
   (:gen-class)
-  (:require [game-engine.game-loop :as game-loop]))
+  (:require [game-engine.game-loop :as game-loop]
+            [quil.core :as q]
+            [quil.middleware :as m]))
 
 (def initial-state {:player {:x 0
                              :y 0
