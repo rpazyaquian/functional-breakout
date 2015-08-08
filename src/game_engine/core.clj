@@ -13,5 +13,5 @@
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (let [game-loop game-loop/game-loop]
-    (game-loop initial-state inputs)))
+  (let [game-engine game-loop/game-engine]
+    (game-engine initial-state inputs)))
