@@ -1,8 +1,6 @@
 (ns game-engine.core
   (:gen-class)
-  (:require [game-engine.game-loop :as game-loop]
-            [quil.core :as q]
-            [quil.middleware :as m]))
+  (:require [game-engine.game-loop :as game-loop]))
 
 (def map-height 512)
 (def map-width 256)
