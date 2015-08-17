@@ -68,8 +68,6 @@
   (q/frame-rate 10)
   (q/color-mode :hsb)
   (q/background 255)
-
-  
   ; this would be the initial state
   ; it would be the first thing returned from (game-engine)
   ; when the initialization is injected    
