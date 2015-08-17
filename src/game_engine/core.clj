@@ -6,7 +6,7 @@
 (def screen-width
   380)
 
-(def screen-width
+(def screen-height
   640)
 
 (defn make-paddle [w h]
@@ -97,7 +97,7 @@
 (defn make-sketch []
   (q/sketch
     :title "breakout"
-    :size [380 640]
+    :size [screen-width screen-height]
     :setup setup
     :update update-state
     :draw draw-state
