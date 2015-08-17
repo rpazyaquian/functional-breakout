@@ -33,13 +33,13 @@
 
   (l/new-game-state))
 
-(defn update-state [state]
+(defn update [state]
   (let [{:keys [paddles balls bricks]} (l/tick-game-state state (:input state))]
     {:paddles paddles
      :balls balls
      :bricks bricks}))
 
-(defn draw-state [state]
+(defn draw [state]
   (let [{:keys [paddles balls bricks]} state]
     (q/background 255)
     (dorun (map draw-paddle paddles))
@@ -48,7 +48,6 @@
 
 (defn key-pressed [state event]
   (let [key (:key event)]
-    ; add key to input
     (assoc state :input key)))
 
 (defn make-sketch []
@@ -56,8 +55,8 @@
     :title "breakout"
     :size [screen-width screen-height]
     :setup setup
-    :update update-state
-    :draw draw-state
+    :update update
+    :draw draw
     :key-pressed key-pressed
     :features [:keep-on-top
                :exit-on-close]

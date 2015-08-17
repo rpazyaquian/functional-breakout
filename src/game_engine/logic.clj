@@ -30,25 +30,24 @@
   (let [brick (make-brick 60 20)]
     [brick]))
 
-(defn update-paddle [paddle]
-  paddle)
-
-(defn update-ball [ball]
-  ball)
-
-(defn update-brick [brick]
-  brick)
-
 (defn new-game-state []
   {:paddles new-paddles
    :balls new-balls
    :bricks new-bricks})
 
+(defn handle-input [state input]
+  ; handling input:
+  ; if the input is :left,
+  ; add an event message
+  ; saying "move paddle left".
+  ; how the fuck do i implement that?
+  )
+
 (defn calc-new-state [old-state input]
-  (let [{:keys [paddles balls bricks]} old-state]
-    {:paddles (map update-paddle paddles)
-     :balls (map update-ball balls)
-     :bricks (map update-brick bricks)}))
+  ; new state calculation goes here, maybe?
+  (-> old-state
+      (handle-input input)
+      (update-positions)))
 
 (defn render-filter [state]
   (let [{:keys [paddles balls bricks]} state]
