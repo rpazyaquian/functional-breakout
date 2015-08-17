@@ -62,6 +62,8 @@
   (q/color-mode :hsb)
   (q/background 255)
 
+  ; here is where we'd query the game backend for an initial state
+
   ; we assume state looks something like this:
   ; {:paddles [{:x 160
   ;             :y 600
@@ -75,11 +77,17 @@
   ;            :w 60
   ;            :h 20}]}
 
+  ; initial-state
+
   {:paddles new-paddles
    :balls new-balls
    :bricks new-bricks})
 
 (defn update-state [old-state]
+  ; so, we'd pass old-state into the game-data processor...
+  ; (let [{:keys [paddles balls bricks]} (tick-state old-state)]
+  ; which would return the new state
+  ; and that's what we want to render.
   (let [{:keys [paddles balls bricks]} old-state]
     ; here, we'd assume that old state is passed into
     ; the game engine proper, and what we're actually doing
@@ -98,6 +106,10 @@
     (dorun (map draw-ball balls))
     (dorun (map draw-brick bricks))))
 
+(defn key-pressed [state event]
+  (println event)
+  state)
+
 (defn make-sketch []
   (q/sketch
     :title "breakout"
@@ -105,6 +117,7 @@
     :setup setup
     :update update-state
     :draw draw-state
+    :key-pressed key-pressed
     :features [:keep-on-top
                :exit-on-close]
     :middleware [m/fun-mode]))
