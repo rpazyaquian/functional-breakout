@@ -68,5 +68,5 @@
 
 (defn tick-game-state [old-state input]
   (println (-> old-state
-              (render-filter)))
+              (render-filter)))  ; figure out calc-new-state
   old-state)
