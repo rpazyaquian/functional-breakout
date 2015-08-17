@@ -1,40 +1,112 @@
 (ns game-engine.core
   (:gen-class)
-  (:require [game-engine.game-loop :as game-loop]))
+  (:require [quil.core :as q]
+            [quil.middleware :as m]))
 
-(def map-height 512)
-(def map-width 256)
+(def screen-width
+  380)
 
-(def screen-height 640)
-(def screen-width 360)
+(def screen-width
+  640)
 
-(defn make-paddle [map-height map-width paddle-height paddle-width]
-  (let [x (center map-width paddle-width)
-        y (margin map-height paddle-height margin)]
-    {:x x
-     :y y
-     :width paddle-width
-     :height paddle-height}))
+(defn make-paddle [w h]
+  {:x (/ (- 380 w) 2)
+   :y (- 640 (* 2 h))
+   :w w
+   :h h})
 
-; what IS my initial state?
-; i have one or more paddles,
-; i have one or more balls,
-; i have one or more bricks.
-(def initial-state
-  (let [initial-paddle (make-paddle map-height map-width 64 16)])
-  {:paddles [initial-paddle]
-   :ball [initial-ball]
-   :bricks initial-bricks})
+(defn make-ball [d]
+  {:x (/ (- 380 d) 2)
+   :y (/ (- 640 (* 2 d)) 2)
+   :d d})
 
-(def inputs [:a :right])
+(defn make-brick [w h]
+  {:x (/ (- 380 w) 2)
+   :y (* 2 h)
+   :w w
+   :h h})
+
+(def new-paddles
+  (let [paddle (make-paddle 60 20)]
+    [paddle]))
+
+(def new-balls
+  (let [ball (make-ball 20)]
+    [ball]))
+
+(def new-bricks
+  (let [brick (make-brick 60 20)]
+    [brick]))
+
+(defn update-paddle [paddle]
+  paddle)
+
+(defn update-ball [ball]
+  ball)
+
+(defn update-brick [brick]
+  brick)
+
+(defn draw-paddle [paddle]
+  (let [{:keys [x y w h]} paddle]
+    (q/fill 0)
+    (q/rect x y w h)))
+
+(defn draw-ball [ball]
+  (let [{:keys [x y d]} ball]
+    (q/fill 0)
+    (q/ellipse x y d d)))
+
+(defn draw-brick [brick]
+  (let [{:keys [x y w h]} brick]
+    (q/fill 0)
+    (q/rect x y w h)))
+
+(defn setup []
+  ; game initialization, maybe?
+  (q/smooth)
+  (q/frame-rate 10)
+  (q/color-mode :hsb)
+  (q/background 255)
+
+  
+  ; this would be the initial state
+  ; it would be the first thing returned from (game-engine)
+  ; when the initialization is injected    
+  {:paddles new-paddles
+   :balls new-balls
+   :bricks new-bricks})
+
+(defn update-state [old-state]
+  (let [{:keys [paddles balls bricks]} old-state]
+    {:paddles (map update-paddle paddles)
+     :balls (map update-ball balls)
+     :bricks (map update-brick bricks)}))
+
+(defn draw-state [state]
+  (let [{:keys [paddles balls bricks]} state]
+    (q/background 255)
+    (dorun (map draw-paddle paddles))
+    (dorun (map draw-ball balls))
+    (dorun (map draw-brick bricks))))
+
+(defn key-pressed [state event]
+  (println event)
+  state)
+
+(defn make-sketch []
+  (q/sketch
+    :title "breakout"
+    :size [380 640]
+    :setup setup
+    :update update-state
+    :draw draw-state
+    :key-pressed key-pressed
+    :features [:keep-on-top
+               :exit-on-close]
+    :middleware [m/fun-mode]))
 
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (let [game-engine game-loop/game-engine]
-    (game-engine initial-state inputs)))
-
-; how's rendering gonna be handled?
-; are we gonna block it?
-; i think the best thing to do is to create a sketch
-; and have it take stuff off the queue.
+  (make-sketch))
