@@ -31,10 +31,10 @@
   (q/color-mode :hsb)
   (q/background 255)   
 
-  (new-game-state))
+  (l/new-game-state))
 
-(defn update-state [old-state]
-  (let [{:keys [paddles balls bricks]} (l/tick-game-state old-state)]
+(defn update-state [state]
+  (let [{:keys [paddles balls bricks]} (l/tick-game-state state (:input state))]
     {:paddles paddles
      :balls balls
      :bricks bricks}))
@@ -47,8 +47,9 @@
     (dorun (map draw-brick bricks))))
 
 (defn key-pressed [state event]
-  (println event)
-  state)
+  (let [key (:key event)]
+    ; add key to input
+    (assoc state :input key)))
 
 (defn make-sketch []
   (q/sketch

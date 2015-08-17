@@ -44,8 +44,20 @@
    :balls new-balls
    :bricks new-bricks})
 
-(defn tick-game-state [old-state]
+(defn calc-new-state [old-state input]
   (let [{:keys [paddles balls bricks]} old-state]
     {:paddles (map update-paddle paddles)
      :balls (map update-ball balls)
      :bricks (map update-brick bricks)}))
+
+(defn render-filter [state]
+  (let [{:keys [paddles balls bricks]} state]
+    {:paddles paddles
+     :balls balls
+     :bricks bricks}))
+
+(defn tick-game-state [old-state input]
+  (println input)
+  (-> old-state
+      (calc-new-state input)
+      (render-filter)))
