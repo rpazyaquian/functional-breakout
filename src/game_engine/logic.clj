@@ -1,6 +1,8 @@
 (ns game-engine.logic
   (:gen-class))
 
+; INITIALIZATION
+
 (defn make-paddle [w h]
   {:x (/ (- 380 w) 2)
    :y (- 640 (* 2 h))
@@ -35,19 +37,28 @@
    :balls new-balls
    :bricks new-bricks})
 
-(defn handle-input [state input]
-  ; handling input:
-  ; if the input is :left,
-  ; add an event message
-  ; saying "move paddle left".
-  ; how the fuck do i implement that?
-  )
+; UPDATING
+
+(defn update-paddles [old-state input]
+  (:paddles old-state))
+
+(defn update-balls [old-state]
+  (:balls old-state))
+
+(defn update-bricks [old-state]
+  (:bricks old-state))
+
+(defn update-entities [old-state input]
+  (-> old-state
+      (update-paddles input)
+      (update-balls)
+      (update-bricks)))
 
 (defn calc-new-state [old-state input]
-  ; new state calculation goes here, maybe?
   (-> old-state
-      (handle-input input)
-      (update-positions)))
+      (update-entities input)))
+
+; TOP-LEVEL
 
 (defn render-filter [state]
   (let [{:keys [paddles balls bricks]} state]
@@ -56,7 +67,6 @@
      :bricks bricks}))
 
 (defn tick-game-state [old-state input]
-  (println input)
-  (-> old-state
-      (calc-new-state input)
-      (render-filter)))
+  (println (-> old-state
+              (render-filter)))
+  old-state)
