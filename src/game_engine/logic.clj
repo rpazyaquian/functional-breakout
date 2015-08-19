@@ -39,14 +39,19 @@
 
 ; UPDATING
 
+(defn process-paddle-input [paddle input]
+  (println input)
+  paddle)
+
 (defn update-paddles [old-state input]
-  (:paddles old-state))
+  (let [{:keys [paddles]} old-state]
+    (assoc old-state :paddles (map #(process-paddle-input % input) paddles))))
 
 (defn update-balls [old-state]
-  (:balls old-state))
+  old-state)
 
 (defn update-bricks [old-state]
-  (:bricks old-state))
+  old-state)
 
 (defn update-entities [old-state input]
   (-> old-state
@@ -67,6 +72,6 @@
      :bricks bricks}))
 
 (defn tick-game-state [old-state input]
-  (println (-> old-state
-              (render-filter)))  ; figure out calc-new-state
-  old-state)
+  (-> old-state
+      (calc-new-state input)
+      (render-filter)))
