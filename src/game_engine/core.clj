@@ -5,10 +5,10 @@
             [game-engine.logic :as l]))
 
 (def screen-width
-  380)
+  640)
 
 (def screen-height
-  640)
+  480)
 
 (defn draw-paddle [paddle]
   (let [{:keys [x y w h]} paddle]
@@ -29,7 +29,7 @@
   (q/smooth)
   (q/frame-rate 10)
   (q/color-mode :hsb)
-  (q/background 255)   
+  (q/background 255)
 
   (l/new-game-state))
 
