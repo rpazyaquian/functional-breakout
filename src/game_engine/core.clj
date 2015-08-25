@@ -2,28 +2,14 @@
   (:gen-class)
   (:require [quil.core :as q]
             [quil.middleware :as m]
-            [game-engine.logic :as l]))
+            [game-engine.logic :as l]
+            [game-engine.draw :as d]))
 
 (def screen-width
   640)
 
 (def screen-height
   480)
-
-(defn draw-paddle [paddle]
-  (let [{:keys [x y w h]} paddle]
-    (q/fill 0)
-    (q/rect x y w h)))
-
-(defn draw-ball [ball]
-  (let [{:keys [x y d]} ball]
-    (q/fill 0)
-    (q/ellipse x y d d)))
-
-(defn draw-brick [brick]
-  (let [{:keys [x y w h]} brick]
-    (q/fill 0)
-    (q/rect x y w h)))
 
 (defn setup []
   (q/smooth)
@@ -42,16 +28,15 @@
   ;  :input #{}}
 
   (let [system-time (System/currentTimeMillis)
-        time-delta (- system-time (:system-time state))
-        new-state (l/tick-game-state state (:input state) time-delta)]
-    (assoc new-state :time system-time :time-delta)))
+        new-state (l/tick-game-state state)]
+    new-state))
 
 (defn draw [state]
   (let [{:keys [paddles balls bricks]} state]
     (q/background 255)
-    (dorun (map draw-paddle paddles))
-    (dorun (map draw-ball balls))
-    (dorun (map draw-brick bricks))))
+    (dorun (map d/draw-paddle paddles))
+    (dorun (map d/draw-ball balls))
+    (dorun (map d/draw-brick bricks))))
 
 (defn key-pressed [state event]
   (let [key (:key event)]

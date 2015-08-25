@@ -2,7 +2,10 @@
   (:gen-class))
 
 (defn new-game-state []
-  {:paddles []
+  {:paddles [{:x 320
+              :y 100
+              :w 40
+              :h 10}]
    :balls []
    :bricks []
    :system-time (System/currentTimeMillis)
@@ -31,8 +34,9 @@
 
 ; TOP-LEVEL
 
-(defn tick-game-state [old-state system-time]
-  (let [system-time ()]
+(defn tick-game-state [old-state]
+  (let [system-time (System/currentTimeMillis)
+        time-delta (- system-time (:system-time old-state))]
     (-> old-state
       (calc-new-state time-delta)
       (assoc :system-time system-time))))
