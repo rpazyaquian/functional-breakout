@@ -34,10 +34,17 @@
   (l/new-game-state))
 
 (defn update [state]
-  (let [{:keys [paddles balls bricks]} (l/tick-game-state state (:input state))]
-    {:paddles paddles
-     :balls balls
-     :bricks bricks}))
+  ; state looks like
+  ; {:paddles []
+  ;  :balls []
+  ;  :bricks []
+  ;  :system-time 0
+  ;  :input #{}}
+
+  (let [system-time (System/currentTimeMillis)
+        time-delta (- system-time (:system-time state))
+        new-state (l/tick-game-state state (:input state) time-delta)]
+    (assoc new-state :time system-time :time-delta)))
 
 (defn draw [state]
   (let [{:keys [paddles balls bricks]} state]
