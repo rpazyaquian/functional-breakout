@@ -33,16 +33,8 @@
   (l/new-game-state))
 
 ;; Update the state for every tick of the Quil drawing loop.
-;; This is where the oh who am i kidding     
 
 (defn update [state]
-  ; state looks like
-  ; {:paddles []
-  ;  :balls []
-  ;  :bricks []
-  ;  :system-time 0
-  ;  :input #{}}
-
   (let [system-time (System/currentTimeMillis)
         new-state (l/tick-game-state state)]
     new-state))
@@ -69,6 +61,9 @@
     :features [:keep-on-top
                :exit-on-close]
     :middleware [m/fun-mode]))
+
+;; The entry point for the program.
+;; At the moment, it just calls make-sketch.
 
 (defn -main
   "I don't do a whole lot ... yet."
