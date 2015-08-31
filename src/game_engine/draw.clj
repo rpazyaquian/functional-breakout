@@ -16,3 +16,10 @@
   (let [{:keys [x y w h]} brick]
     (q/fill 0)
     (q/rect x y w h)))
+
+(defn draw [state]
+  (let [{:keys [paddles balls bricks]} (render-filter state)]
+    (q/background 255)
+    (dorun (map draw-paddle paddles))
+    (dorun (map draw-ball balls))
+    (dorun (map draw-brick bricks))))
