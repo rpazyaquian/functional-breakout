@@ -39,12 +39,19 @@
         new-state (l/tick-game-state state)]
     new-state))
 
+;; Draw the state for every tick of the Quil drawing loop.
+
 (defn draw [state]
   (d/draw-state state))
+
+;; Call this function whenever a key is pressed.
+;; The current state and the tripped event is passed in.
 
 (defn key-pressed [state event]
   (let [key (:key event)]
     (assoc state :input key)))
+
+;; Define our Quil sketch.
 
 (defn make-sketch []
   (q/sketch
