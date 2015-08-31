@@ -19,7 +19,6 @@
 
 (defn draw [state]
   (let [{:keys [paddles balls bricks]} (render-filter state)]
-    (q/background 255)
     (dorun (map draw-paddle paddles))
     (dorun (map draw-ball balls))
     (dorun (map draw-brick bricks))))
