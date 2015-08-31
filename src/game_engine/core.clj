@@ -1,3 +1,8 @@
+;; # Functional Breakout 
+;; This is a basic game engine implemented as a clone of Breakout.
+;; It's primarily functional in nature.
+;; I don't have a clue what I'm doing, to be honest, but hey.
+
 (ns game-engine.core
   (:gen-class)
   (:require [quil.core :as q]
@@ -5,19 +10,30 @@
             [game-engine.logic :as l]
             [game-engine.draw :as d]))
 
+;; The screen width. 
+
 (def screen-width
   640)
+
+;; The screen height.
 
 (def screen-height
   480)
 
-(defn setup []
+;; Initialize the Quil sketch and define our initial game state.
+
+(defn setup
+  "So, uh, how does this work?"
+  []
   (q/smooth)
   (q/frame-rate 10)
   (q/color-mode :hsb)
   (q/background 255)
 
   (l/new-game-state))
+
+;; Update the state for every tick of the Quil drawing loop.
+;; This is where the oh who am i kidding     
 
 (defn update [state]
   ; state looks like
