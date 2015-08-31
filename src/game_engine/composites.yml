@@ -1,0 +1,15 @@
+# composites are pre-defined collections of components
+# they are extensible and override-able
+renderable_rectangle: &renderable_rectangle
+  position:
+    x: 0
+    y: 0
+  rectangle_size:
+    w: 0
+    h: 0
+renderable_circle: &renderable_circle
+  position:
+    x: 0
+    y: 0
+  circle_size:
+    d: 0
