@@ -40,11 +40,7 @@
     new-state))
 
 (defn draw [state]
-  (let [{:keys [paddles balls bricks]} state]
-    (q/background 255)
-    (dorun (map d/draw-paddle paddles))
-    (dorun (map d/draw-ball balls))
-    (dorun (map d/draw-brick bricks))))
+  (d/draw-state state))
 
 (defn key-pressed [state event]
   (let [key (:key event)]
