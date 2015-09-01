@@ -1,0 +1,12 @@
+# the schema of the different components in breakout.
+position:
+  x: 0
+  y: 0
+velocity:
+  vx: 0
+  vy: 0
+rectangle:
+  w: 0
+  h: 0
+circle:
+  d: 0
