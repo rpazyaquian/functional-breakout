@@ -35,6 +35,11 @@
 
 ; set functions
 
+(defn set-inputs
+  "Set the process structure's inputs to the old state's inputs."
+  [process-structure]
+  (assoc process-structure :inputs (get-in process-structure [:old-state :inputs])))
+
 (defn set-current-time
   "Set the process structure's current time to the current system time in ms."
   [process-structure]
@@ -66,6 +71,7 @@
   "Runs the process structure through its update pipeline."
   [process-structure]
   (-> process-structure
+      (set-inputs)
       (set-current-time)
       (set-time-delta)
       (set-ecs-state)
