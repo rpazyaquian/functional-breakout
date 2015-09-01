@@ -2,43 +2,50 @@
   (:gen-class)
   (:require [quil.core :as q]))
 
-; (defn filter-paddles [state]
-;   (let [{:keys [position-components rectangle-size-components]} state
-;         position-component (filter #(= (:entity %) "paddle") position-components)
-;         rectangle-size-component (filter #(= (:entity %) "paddle") rectangle-size-components)]
-;     (merge position-component rectangle-size-component)))
+; get functions
 
-; (defn filter-balls [state])
+(defn get-rectangles
+  "Creates rectangles given the entities and components of a state. Requires: entity keys, 2d positions, 2d sizes (rectangles)."
+  [state]
+  (let [{:keys [positions rectangles]} state]
+    (clojure.set/join positions rectangles)))
 
-; (defn filter-bricks [state])
+(defn get-circles
+  "Creates circles given the entities and components of a state. Requires: entity keys, 2d positions, diameters (circles)."
+  [state]
+  (let [{:keys [positions circles]} state]
+    (clojure.set/join positions circles)))
 
-; (defn render-filter [state]
-;   {:paddles (filter-paddles state)
-;    :balls (filter-balls balls)
-;    :bricks (filter-bricks bricks)})
+; draw functions
 
-; (defn draw-paddle [paddle]
-;   ; expecting a "paddle" to be a map like: {:x 0 :y 0 :w 0 :h 0}
-;   (let [{:keys [x y w h]} paddle]
-;     (q/fill 0)
-;     (q/rect x y w h)))
+(defn draw-rectangle
+  "Draws a rectangle."
+  [rectangle]
+  (let [{:keys [x y w h]} rectangle]
+    (q/fill 0)
+    (q/rect x y w h)))
 
-; (defn draw-ball [ball]
-;   (let [{:keys [x y d]} ball]
-;     (q/fill 0)
-;     (q/ellipse x y d d)))
+(defn draw-circle
+  "Draws a circle."
+  [circle]
+  (let [{:keys [x y d]} circle]
+    (q/fill 0)
+    (q/ellipse x y d d)))
 
-; (defn draw-brick [brick]
-;   (let [{:keys [x y w h]} brick]
-;     (q/fill 0)
-;     (q/rect x y w h)))
+(defn draw-rectangles
+  "Draws rectangles."
+  [rectangles]
+  (dorun (map draw-rectangle rectangles)))
 
-; (defn draw-state [state]
-;   (let [{:keys [paddles balls bricks]} (render-filter state)]
-;     (dorun (map draw-paddle paddles))
-;     (dorun (map draw-ball balls))
-;     (dorun (map draw-brick bricks))))
+(defn draw-circles
+  "Draws circles."
+  [circles]
+  (dorun (map draw-circle circles)))
 
 (defn draw-state [state]
-  (println state)
-  state)
+  (let [ecs-state (:ecs-state state)
+        rectangles (get-rectangles ecs-state)
+        circles (get-circles ecs-state)]
+    (draw-rectangles rectangles)
+    (draw-circles circles)
+    state))

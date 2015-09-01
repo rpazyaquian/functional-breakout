@@ -76,7 +76,7 @@
   "Set up our sketch and our initial state."
   []
   (q/smooth)
-  (q/frame-rate 10)
+  (q/frame-rate 60)
   (q/color-mode :hsb)
   (q/background 255)
 
