@@ -95,9 +95,9 @@
 ;; Call this function whenever a key is pressed.
 ;; The current state and the tripped event is passed in.
 
-(defn key-pressed [state event]
-  (let [key (:key event)]
-    (assoc state :input key)))
+; (defn key-pressed [state event]
+;   (let [key (:key event)]
+;     (assoc state :input key)))
 
 ;; Define our Quil sketch.
 
@@ -108,7 +108,7 @@
     :setup setup
     :update update
     :draw draw
-    :key-pressed key-pressed
+    ; :key-pressed key-pressed
     :features [:keep-on-top
                :exit-on-close]
     :middleware [m/fun-mode]))
