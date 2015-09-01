@@ -52,7 +52,7 @@
   "Set the process structure's ECS state to a new ECS state given the old state's ECS state, time delta, and inputs."
   [process-structure]
   (let [{:keys [inputs system-time time-delta]} process-structure
-        old-ecs-state (get-in process-structure :old-state :ecs-state)
+        old-ecs-state (get-in process-structure [:old-state :ecs-state])
         ecs-state (get-ecs-state old-ecs-state inputs system-time time-delta)]
     (assoc process-structure :ecs-state ecs-state)))
 
@@ -62,12 +62,18 @@
   (let [new-state (get-new-state process-structure)]
     (assoc process-structure :new-state new-state)))
 
+(defn update-process-structure
+  "Runs the process structure through its update pipeline."
+  [process-structure]
+  (-> process-structure
+      (set-current-time)
+      (set-time-delta)
+      (set-ecs-state)
+      (set-new-state)
+      (:new-state)))
+
 (defn update-state [old-state]
   "Takes an old state and returns a new state."
-  (let [process-structure (get-new-process-structure old-state)]
-    (-> process-structure
-        (set-current-time)
-        (set-time-delta)
-        (set-ecs-state)
-        (set-new-state)
-        (:new-state))))
+  (let [process-structure (get-new-process-structure old-state)
+        new-state (update-process-structure process-structure)]
+    new-state))

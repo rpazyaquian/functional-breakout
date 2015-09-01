@@ -40,4 +40,5 @@
 ;     (dorun (map draw-brick bricks))))
 
 (defn draw-state [state]
+  (println state)
   state)
