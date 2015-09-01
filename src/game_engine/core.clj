@@ -73,7 +73,7 @@
 ;; Initialize the Quil sketch and define our initial game state.
 
 (defn setup
-  "So, uh, how does this work?"
+  "Set up our sketch and our initial state."
   []
   (q/smooth)
   (q/frame-rate 10)
