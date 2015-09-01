@@ -35,9 +35,7 @@
 ;; Update the state for every tick of the Quil drawing loop.
 
 (defn update [state]
-  (let [system-time (System/currentTimeMillis)
-        new-state (l/tick-game-state state)]
-    new-state))
+  (l/tick-game-state state))
 
 ;; Draw the state for every tick of the Quil drawing loop.
 
