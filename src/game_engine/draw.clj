@@ -2,7 +2,11 @@
   (:gen-class)
   (:require [quil.core :as q]))
 
-(defn filter-paddles [state])
+(defn filter-paddles [state]
+  (let [{:keys [position-components rectangle-size-components]} state
+        position-component (filter #(= (:entity %) "paddle") position-components)
+        rectangle-size-component (filter #(= (:entity %) "paddle") rectangle-size-components)]
+    (merge position-component rectangle-size-component)))
 
 (defn filter-balls [state])
 

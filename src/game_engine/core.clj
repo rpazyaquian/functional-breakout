@@ -7,8 +7,11 @@
   (:gen-class)
   (:require [quil.core :as q]
             [quil.middleware :as m]
-            [game-engine.logic :as l]
+            [game-engine.setup :as s]
+            [game-engine.update :as u]
             [game-engine.draw :as d]))
+
+;; VALUES
 
 ;; The screen width. 
 
@@ -20,6 +23,53 @@
 (def screen-height
   480)
 
+;; Inits.
+
+(def initial-entities
+  {:entities ["paddle"
+              "ball"
+              "brick"]})
+
+(def initial-components
+  ;; key concept: **struct of arrays**
+  {:positions [{:entity "paddle"
+                :x 0
+                :y 0}
+               {:entity "ball"
+                :x 0
+                :y 0}
+               {:entity "brick"
+                :x 0
+                :y 0}]
+   :velocities [{:entity "paddle"
+                 :vx 0
+                 :vy 0}
+                {:entity "ball"
+                 :vx 0
+                 :vy 0}]
+   :rectangles [{:entity "paddle"
+                 :w 40
+                 :h 10}
+                {:entity "brick"
+                 :w 40
+                 :h 10}]
+   :circles [{:entity "ball"
+              :d 10}]})
+
+;; A state looks something like this:
+;;
+;; ```clojure
+;; {:inputs #{}
+;;  :system-time 0
+;;  :ecs-state {:entities []
+;;              :components []}}
+;; ```
+
+(def initial-state
+  (s/create-initial-state initial-entities initial-components))
+
+;; FUNCTIONS
+
 ;; Initialize the Quil sketch and define our initial game state.
 
 (defn setup
@@ -30,12 +80,12 @@
   (q/color-mode :hsb)
   (q/background 255)
 
-  (l/new-game-state))
+  initial-state)
 
 ;; Update the state for every tick of the Quil drawing loop.
 
 (defn update [state]
-  (l/tick-game-state state))
+  (u/update-state state))
 
 ;; Draw the state for every tick of the Quil drawing loop.
 

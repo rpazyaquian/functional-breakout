@@ -1,40 +1,18 @@
 (ns game-engine.update
   (:gen-class))
 
-; inits
-
-(def update-process-structure
-  {:old-state {}
-   :system-time nil
-   :time-delta nil
-   :inputs nil
-   :ecs-state nil
-   :new-state nil})
-
-(def initial-ecs-state
-  {:positions [{:entity "rectangle"
-                :x 0
-                :y 0}
-               {:entity "circle"
-                :x 0
-                :y 0}]
-   :sizes [{:entity "rectangle"
-            :w 10
-            :h 10}
-           {:entity "circle"
-            :d 10}]})
-
-(def initial-old-state
-  {:inputs #{:right}
-   :system-time 0
-   :ecs-state initial-ecs-state})
-
 ; get functions
 
 (defn get-new-process-structure
   "Get a new process structure given an old state."
   [old-state]
-  (assoc update-process-structure :old-state old-state))
+  (let [process-structure-template {:old-state {}
+                                    :system-time nil
+                                    :time-delta nil
+                                    :inputs nil
+                                    :ecs-state nil
+                                    :new-state nil}]
+    (assoc process-structure-template :old-state old-state)))
 
 (defn get-time-delta
   "Get time delta given initial time and final time."
@@ -84,7 +62,7 @@
   (let [new-state (get-new-state process-structure)]
     (assoc process-structure :new-state new-state)))
 
-(defn update-process [old-state]
+(defn update-state [old-state]
   "Takes an old state and returns a new state."
   (let [process-structure (get-new-process-structure old-state)]
     (-> process-structure
