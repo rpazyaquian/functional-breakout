@@ -1,3 +1,4 @@
+# shitty fucking goddamn shitballs. fuck shit goddamn
 paddle:
   position:
     x: 0
@@ -5,7 +6,7 @@ paddle:
   velocity:
     vx: 0
     vy: 0
-  rectangle_size:
+  rectangle:
     w: 40
     h: 10
 ball:
@@ -15,13 +16,13 @@ ball:
   velocity:
     vx: 0
     vy: 0
-  circle_size:
+  circle:
     d: 10
 brick1: &brick
   position:
     x: 0
     y: 0
-  rectangle_size:
+  rectangle:
     w: 40
     h: 10
 brick2:

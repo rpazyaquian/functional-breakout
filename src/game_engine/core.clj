@@ -25,48 +25,32 @@
 
 ;; Inits.
 
-(def initial-entities
-  {:entities ["paddle"
-              "ball"
-              "brick"]})
-
-(def initial-components
-  ;; key concept: **struct of arrays**
-  {:positions [{:entity "paddle"
-                :x 0
-                :y 0}
-               {:entity "ball"
-                :x 0
-                :y 0}
-               {:entity "brick"
-                :x 0
-                :y 0}]
-   :velocities [{:entity "paddle"
-                 :vx 0
-                 :vy 0}
-                {:entity "ball"
-                 :vx 0
-                 :vy 0}]
-   :rectangles [{:entity "paddle"
-                 :w 40
-                 :h 10}
-                {:entity "brick"
-                 :w 40
-                 :h 10}]
-   :circles [{:entity "ball"
-              :d 10}]})
-
-;; A state looks something like this:
-;;
-;; ```clojure
-;; {:inputs #{}
-;;  :system-time 0
-;;  :ecs-state {:entities []
-;;              :components []}}
-;; ```
-
-(def initial-state
-  (s/create-initial-state initial-entities initial-components))
+(def initial-ecsdb
+  ; array of facts
+  [; balls
+   ["ball" :position/x 280]
+   ["ball" :position/y 200]
+   ["ball" :velocity/vx 0]
+   ["ball" :velocity/vy 0]
+   ["ball" :size/w 40]
+   ["ball" :size/h 40]
+   ["ball" :damage/points 1]
+   ["ball" :solidity/enabled true]
+   ; paddle
+   ["paddle" :position/x 240]
+   ["paddle" :position/y 360]
+   ["paddle" :velocity/vx 0]
+   ["paddle" :velocity/vy 0]
+   ["paddle" :size/w 160]
+   ["paddle" :size/h 40]
+   ["paddle" :solidity/enabled true]
+   ; bricks
+   ["brick" :position/x 40]
+   ["brick" :position/y 40]
+   ["brick" :size/w 80]
+   ["brick" :size/h 40]
+   ["brick" :health/points 1]
+   ["brick" :solidity/enabled true]])
 
 ;; FUNCTIONS
 
@@ -80,7 +64,7 @@
   (q/color-mode :hsb)
   (q/background 255)
 
-  initial-state)
+  (s/create-initial-state initial-ecsdb))
 
 ;; Update the state for every tick of the Quil drawing loop.
 
@@ -117,6 +101,6 @@
 ;; At the moment, it just calls make-sketch.
 
 (defn -main
-  "I don't do a whole lot ... yet."
+  "I don't do a whole lot. Yet."
   [& args]
   (make-sketch))
